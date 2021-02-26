@@ -1,0 +1,12 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <ul class="list-group">
+{% for item in watch  %}
+   <li class="list-group-item">{{ item.product.title}} <a href="{% url 'details' item.product.id  %}"  class="btn btn-primary stretched-link">{{ item.product.title}}</a> | <a href="{% url 'remove' item.id %}">Remove</a></li>
+    {% endfor %}
+{{ crsf_token }}
+{{ form|crispy}}
+    <input type="submit"  class="btn btn-primary">
+</ul>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <h2>New Lists</h2>
+    <form method="post" action="{%  url 'newlist' %}">
+    {% csrf_token %}
+       {{ form|crispy}}
+        <input type="submit">
+  </form>
+{% endblock %}

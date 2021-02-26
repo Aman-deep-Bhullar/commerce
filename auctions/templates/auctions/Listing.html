@@ -1,0 +1,56 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    {% if request.user == productdetails.user %}
+    <a href="{% url 'closebid' productdetails.id %}">Close the bid</a>
+    {% endif %}
+
+
+
+
+
+<ul class="list-group">
+  <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+    <div class="flex-column">
+                {{productdetails.title}}
+      <p><small>{{productdetails.price}}</small></p>
+      <span class="badge badge-info badge-pill">{{productdetails.description}}</span>
+    </div>
+    <div class="image-parent">
+        <img src="{{productdetails.image}}" class="img-fluid" alt="quixote">
+    </div>
+  </a>
+
+</ul>
+</div>
+<br>
+    <br>
+<a class="btn btn-primary" href="{% url 'addwatchlist'  productdetails.id %}">Add watchlist</a>
+    {% if productdetails.openorclosed == 0 %}
+    <p>The last bid :{{ bid.price }}
+    <form method="POST" action= >
+     {% csrf_token %}
+    {{ form|crispy}}
+    <input type="submit">
+    </form>
+    <form method="POST" action="{%  url 'comments' productdetails.id %}"  >
+    {%  csrf_token %}
+    {{ formcomment|crispy}}
+      <input type="submit">
+    </form>
+{% else %}
+<br>
+        <h3>Sorry it is closed </h3>
+<br>
+
+        {% if request.user == productdetails.user %}
+
+       <h3> The winner is:  {{ bid.user.username }}</h3>
+{% endif %}
+    {% endif %}
+{% for comment in comments %}
+    <li> {{ comment.user.username }}|{{ comment.comment }}</li>
+
+
+    {% endfor %}
+{% endblock %}
